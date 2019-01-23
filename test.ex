@@ -68,7 +68,7 @@ defmodule Test do
     end
   end
 
-  def remove(x, []) do
+  def remove(_, []) do
     []
   end
 
@@ -86,45 +86,71 @@ defmodule Test do
     []
   end
 
-  def unique(l) do
-    [h | t] = l
+  def unique([h | t]) do
     [h | unique(remove(h, t))]
   end
 
-  def pack(l) do
+  # Helper for pack
+  def count(_, []) do
+    0
   end
 
-  def reverse(l) do
+  def count(x, l) do
+    case l do
+      [h | t] when x == h ->
+        1 + count(x, t)
+
+      [_ | t] ->
+        count(x, t)
+    end
+  end
+
+  # Helper for pack
+  def putMultiple(_, _, 0) do
+    []
+  end
+
+  def putMultiple(e, l, x) do
+    [e | putMultiple(e, l, x - 1)]
+  end
+
+  def pack([]) do
+    []
+  end
+
+  def pack([h | t]) do
+    [putMultiple(h, [], count(h, [h | t])) | pack(remove(h, t))]
+  end
+
+  def reverse([]) do
+    []
+  end
+
+  def reverse([h | t]) do
+    reverse(t) ++ [h]
   end
 
   # ====================================================== #
   # =================== INSERTION SORT =================== #
   # ====================================================== #
 
-  def isort(l) do
-    isort(l, [])
+  def insertionSort(l) do
+    insertionSort(l, [])
   end
 
-  def isort(x, l) do
-    case l do
-      [] ->
-        [h, _] = x
+  def insertionSort([], s) do
+    s
+  end
 
-      [h | t] when h < x ->
-        0
-
-      [h | t] ->
-        0
-    end
+  def insertionSort([h | t], s) do
+    insertionSort(t, insert(h, s))
   end
 
   def insert(e, l) do
     case l do
-      [h | _] when e < h ->
-        [e | l]
-
-      [h | t] ->
-        [h | insert(e, t)]
+      [] -> [e]
+      [h | t] when e < h -> [e | l]
+      [h | t] -> [h | insert(e, t)]
     end
   end
 end
