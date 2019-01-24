@@ -153,4 +153,12 @@ defmodule Test do
       [h | t] -> [h | insert(e, t)]
     end
   end
+
+  def fib(n) do
+
+  end
+
+  def fib(n1, n2) do
+    
+  end
 end
