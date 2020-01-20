@@ -73,10 +73,10 @@ end
 
 defmodule Color do
   def convert(depth, max) do
-    ratio = depth / max
-    r = trunc(200 * ratio - 100 * ratio * ratio)
-    g = trunc(200 * ratio - 100 * ratio * ratio)
-    b = trunc(255 * ratio)
+    ratio = rem(trunc(depth * max / 3), max) / max
+    r = Kernel.trunc(100 * ratio * ratio)
+    g = Kernel.trunc(100 * ratio * ratio)
+    b = Kernel.trunc(255 * ratio)
     {:rgb, r, g, b}
   end
 end
